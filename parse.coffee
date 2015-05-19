@@ -1,4 +1,5 @@
-fs = require 'fs'
+fs = require "fs"
+R = require "ramda"
 
 latexToArray = (fileName, tagToSplitOn) ->
   latex = fs.readFileSync(fileName)
@@ -8,10 +9,18 @@ latexToArray = (fileName, tagToSplitOn) ->
     .split("\\#{tagToSplitOn}")
     .slice 1
 
-parseLatexItem = (latexItem) ->
-  year: latexItem.match(/\((\d*)\)/)[1]
 
+parseLatexItem = (parsingRules, latexItem) ->
+  buildParsedObject = (parseObject, rule) ->
+    parseObject[rule.property] = latexItem.match(rule.matcher)[rule.matchGroup]
+    parseObject
+
+  R.reduce buildParsedObject, {}, parsingRules
+
+
+parseLatexArray = () ->
 module.exports = {
   latexToArray
   parseLatexItem
+  parseLatexArray
 }
