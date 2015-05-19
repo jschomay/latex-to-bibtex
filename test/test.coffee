@@ -4,6 +4,44 @@
 
 latexArray = latexToArray "test/sample.tex", "bibitem"
 
+parseRules = [
+  property: "tag"
+  matcher: /^\{(\w+\d+)\}/
+  matchGroup: 1
+,
+  property: "year"
+  matcher: /\((\d*)\)/
+  matchGroup: 1
+,
+  property: "publisher"
+  matcher: /todo/
+  matchGroup: null
+,
+  property: "volume"
+  matcher: /\\underline\{(\d+)\}/
+  matchGroup: 1
+,
+  property: "number"
+  matcher: /todo/
+  matchGroup: null
+,
+  property: "pages"
+  matcher: /\d+--\d+/
+  matchGroup: null
+,
+  property: "author"
+  matcher: /}(.+),\s*``/
+  matchGroup: 1
+,
+  property: "title"
+  matcher: /``(.+),''/
+  matchGroup: 1
+,
+  property: "journal"
+  matcher: /\{\\em\s([^}]+)\}/
+  matchGroup: 1
+]
+
 describe "latexToArray", ->
 
   it "changes latex to an array", ->
@@ -13,44 +51,6 @@ describe "latexToArray", ->
     expect(latexArray[0]).to.match /^{/
 
 describe "parseLatexItem", ->
-
-  parseRules = [
-    property: "tag"
-    matcher: /^\{(\w+\d+)\}/
-    matchGroup: 1
-  ,
-    property: "year"
-    matcher: /\((\d*)\)/
-    matchGroup: 1
-  ,
-    property: "publisher"
-    matcher: /todo/
-    matchGroup: null
-  ,
-    property: "volume"
-    matcher: /\\underline\{(\d+)\}/
-    matchGroup: 1
-  ,
-    property: "number"
-    matcher: /todo/
-    matchGroup: null
-  ,
-    property: "pages"
-    matcher: /\d+--\d+/
-    matchGroup: null
-  ,
-    property: "author"
-    matcher: /}(.+),\s*``/
-    matchGroup: 1
-  ,
-    property: "title"
-    matcher: /``(.+),''/
-    matchGroup: 1
-  ,
-    property: "journal"
-    matcher: /\{\\em\s([^}]+)\}/
-    matchGroup: 1
-  ]
 
   latexObject = parseLatexItem(parseRules, latexArray[0])
 
@@ -86,3 +86,14 @@ describe "parseLatexItem", ->
     it "journal", ->
       expect(latexObject).to.have.property "journal", "IEEE Trans Knowl Data Engin"
 
+  describe "parseLatexArray", ->
+
+    it "maps the raw latex array items to parsed objects", ->
+
+      parsedLatex = parseLatexArray(parseRules, latexArray)
+
+      expect(parsedLatex).to.be.an "Array"
+      expect(parsedLatex).to.have.length 3
+      expect(parsedLatex[0]).to.have.property "year"
+      expect(parsedLatex[1]).to.have.property "year"
+      expect(parsedLatex[2]).to.have.property "year"

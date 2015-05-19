@@ -18,7 +18,9 @@ parseLatexItem = (parsingRules, latexItem) ->
   R.reduce buildParsedObject, {}, parsingRules
 
 
-parseLatexArray = () ->
+parseLatexArray = (parsingRules, latexArray) ->
+  R.map(R.partial(parseLatexItem, parsingRules)) latexArray
+
 module.exports = {
   latexToArray
   parseLatexItem
