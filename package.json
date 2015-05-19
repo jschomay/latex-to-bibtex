@@ -15,6 +15,7 @@
     "chai": "^2.3.0"
   },
   "dependencies": {
-    "ramda": "^0.14.0"
+    "ramda": "^0.14.0",
+    "titlecase": "^1.0.2"
   }
 }

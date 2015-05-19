@@ -1,52 +1,22 @@
 {expect} = require "chai"
 
-{latexToArray, parseLatexItem, parseLatexArray} = require "../parse"
+{latexToArray
+  parseLatexItem
+  parseLatexArray
+  formatParsedItem
+} = require "../parse"
+
+parseRules = require "../parseRules"
+formattingRules = require "../formattingrules"
 
 latexArray = latexToArray "test/sample.tex", "bibitem"
-
-parseRules = [
-  property: "tag"
-  matcher: /^\{(\w+\d+)\}/
-  matchGroup: 1
-,
-  property: "year"
-  matcher: /\((\d*)\)/
-  matchGroup: 1
-,
-  property: "publisher"
-  matcher: /todo/
-  matchGroup: null
-,
-  property: "volume"
-  matcher: /\\underline\{(\d+)\}/
-  matchGroup: 1
-,
-  property: "number"
-  matcher: /todo/
-  matchGroup: null
-,
-  property: "pages"
-  matcher: /\d+--\d+/
-  matchGroup: null
-,
-  property: "author"
-  matcher: /}(.+),\s*``/
-  matchGroup: 1
-,
-  property: "title"
-  matcher: /``(.+),''/
-  matchGroup: 1
-,
-  property: "journal"
-  matcher: /\{\\em\s([^}]+)\}/
-  matchGroup: 1
-]
 
 describe "latexToArray", ->
 
   it "changes latex to an array", ->
     expect(latexArray).to.be.an "Array"
     expect(latexArray).to.have.length 3
+    expect(latexArray[0]).to.be.a "String"
     expect(latexArray[0]).to.have.length.gt 100
     expect(latexArray[0]).to.match /^{/
 
@@ -81,7 +51,7 @@ describe "parseLatexItem", ->
       expect(latexObject).to.have.property "author", "Acar E, Yener B"
 
     it "title", ->
-      expect(latexObject).to.have.property "title", "Unsupervised multiway data analysis: a literature survey"
+      expect(latexObject).to.have.property "title", "Unsupervised multiway data analysis: A literature survey"
 
     it "journal", ->
       expect(latexObject).to.have.property "journal", "IEEE Trans Knowl Data Engin"
@@ -97,3 +67,43 @@ describe "parseLatexItem", ->
       expect(parsedLatex[0]).to.have.property "year"
       expect(parsedLatex[1]).to.have.property "year"
       expect(parsedLatex[2]).to.have.property "year"
+
+
+describe "formatParsedItem", ->
+
+  parsedItem = parseLatexItem(parseRules, latexArray[0])
+  formattedItem = formatParsedItem(formattingRules, parsedItem)
+
+  it "returns an object", ->
+
+    expect(formattedItem).to.be.an "Object"
+
+  describe "with modified properties based on formatRules", ->
+
+    it "tag", ->
+      expect(formattedItem).to.have.property "tag", "Aca2009"
+
+    it "year", ->
+      expect(formattedItem).to.have.property "year", "2009"
+
+    it.skip "publisher", ->
+      expect(formattedItem).to.have.property "publisher", "todo"
+
+    it "volume", ->
+      expect(formattedItem).to.have.property "volume", "21"
+
+    it.skip "number", ->
+      expect(formattedItem).to.have.property "number", "1"
+
+    it "pages", ->
+      expect(formattedItem).to.have.property "pages", "6--20"
+
+    it "author", ->
+      expect(formattedItem).to.have.property "author", "E. Acar and B. Yener"
+
+    it "title", ->
+      expect(formattedItem).to.have.property "title", "Unsupervised Multiway Data Analysis: {A} Literature Survey"
+
+    it "journal", ->
+      expect(formattedItem).to.have.property "journal", "{IEEE} Trans Knowl Data Engin"
+

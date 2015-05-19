@@ -12,7 +12,7 @@ latexToArray = (fileName, tagToSplitOn) ->
 
 parseLatexItem = (parsingRules, latexItem) ->
   buildParsedObject = (parseObject, rule) ->
-    parseObject[rule.property] = latexItem.match(rule.matcher)?[rule.matchGroup or 0]
+    parseObject[rule.prop] = latexItem.match(rule.matcher)?[rule.matchGroup or 0]
     parseObject
 
   R.reduce buildParsedObject, {}, parsingRules
@@ -21,8 +21,20 @@ parseLatexItem = (parsingRules, latexItem) ->
 parseLatexArray = (parsingRules, latexArray) ->
   R.map(R.partial(parseLatexItem, parsingRules)) latexArray
 
+
+formatParsedItem = (formattingRules, parsedItem) ->
+  format = (formatted, item) ->
+    formatted[item.prop] = item.format parsedItem[item.prop]
+    formatted
+
+  formattedObject = R.reduce format, {}, formattingRules
+
+  R.merge parsedItem, formattedObject
+
+
 module.exports = {
   latexToArray
   parseLatexItem
   parseLatexArray
+  formatParsedItem
 }
