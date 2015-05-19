@@ -4,6 +4,7 @@
   parseLatexItem
   parseLatexArray
   formatParsedItem
+  formatParsedArray
 } = require "../parse"
 
 parseRules = require "../parseRules"
@@ -56,17 +57,17 @@ describe "parseLatexItem", ->
     it "journal", ->
       expect(latexObject).to.have.property "journal", "IEEE Trans Knowl Data Engin"
 
-  describe "parseLatexArray", ->
+describe "parseLatexArray", ->
 
-    it "maps the raw latex array items to parsed objects", ->
+  it "maps the raw latex array items to parsed objects", ->
 
-      parsedLatex = parseLatexArray(parseRules, latexArray)
+    parsedLatex = parseLatexArray(parseRules, latexArray)
 
-      expect(parsedLatex).to.be.an "Array"
-      expect(parsedLatex).to.have.length 3
-      expect(parsedLatex[0]).to.have.property "year"
-      expect(parsedLatex[1]).to.have.property "year"
-      expect(parsedLatex[2]).to.have.property "year"
+    expect(parsedLatex).to.be.an "Array"
+    expect(parsedLatex).to.have.length 3
+    expect(parsedLatex[0]).to.have.property "year"
+    expect(parsedLatex[1]).to.have.property "year"
+    expect(parsedLatex[2]).to.have.property "year"
 
 
 describe "formatParsedItem", ->
@@ -107,3 +108,13 @@ describe "formatParsedItem", ->
     it "journal", ->
       expect(formattedItem).to.have.property "journal", "{IEEE} Trans Knowl Data Engin"
 
+describe "formatParsedArray", ->
+
+  it "formats each item in the parsed array", ->
+    parsedLatex = parseLatexArray(parseRules, latexArray)
+    formattedAndParsedObject = formatParsedArray formattingRules, parsedLatex
+    expect(formattedAndParsedObject).to.be.an "Array"
+    expect(formattedAndParsedObject).to.have.length 3
+    expect(formattedAndParsedObject[0]).to.have.property "tag", "Aca2009"
+    expect(formattedAndParsedObject[1]).to.have.property "tag", "Agr2014"
+    expect(formattedAndParsedObject[2]).to.have.property "tag", "Alb2003"

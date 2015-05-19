@@ -32,9 +32,13 @@ formatParsedItem = (formattingRules, parsedItem) ->
   R.merge parsedItem, formattedObject
 
 
+formatParsedArray = (formattingRules, parsedObject) ->
+  R.map(R.partial(formatParsedItem, formattingRules)) parsedObject
+
 module.exports = {
   latexToArray
   parseLatexItem
   parseLatexArray
   formatParsedItem
+  formatParsedArray
 }
