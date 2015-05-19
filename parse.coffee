@@ -12,7 +12,7 @@ latexToArray = (fileName, tagToSplitOn) ->
 
 parseLatexItem = (parsingRules, latexItem) ->
   buildParsedObject = (parseObject, rule) ->
-    parseObject[rule.property] = latexItem.match(rule.matcher)[rule.matchGroup]
+    parseObject[rule.property] = latexItem.match(rule.matcher)?[rule.matchGroup or 0]
     parseObject
 
   R.reduce buildParsedObject, {}, parsingRules
