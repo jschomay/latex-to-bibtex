@@ -35,10 +35,15 @@ formatParsedItem = (formattingRules, parsedItem) ->
 formatParsedArray = (formattingRules, parsedObject) ->
   R.map(R.partial(formatParsedItem, formattingRules)) parsedObject
 
+
+renderItemToTemplate = (data, template) ->
+  template data
+
 module.exports = {
   latexToArray
   parseLatexItem
   parseLatexArray
   formatParsedItem
   formatParsedArray
+  renderItemToTemplate
 }

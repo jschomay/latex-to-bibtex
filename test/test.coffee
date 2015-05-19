@@ -5,10 +5,12 @@
   parseLatexArray
   formatParsedItem
   formatParsedArray
+  renderItemToTemplate
 } = require "../parse"
 
 parseRules = require "../parseRules"
 formattingRules = require "../formattingrules"
+template = require "../template"
 
 latexArray = latexToArray "test/sample.tex", "bibitem"
 
@@ -118,3 +120,29 @@ describe "formatParsedArray", ->
     expect(formattedAndParsedObject[0]).to.have.property "tag", "Aca2009"
     expect(formattedAndParsedObject[1]).to.have.property "tag", "Agr2014"
     expect(formattedAndParsedObject[2]).to.have.property "tag", "Alb2003"
+
+
+describe "renderItemToTemplate", ->
+
+  it "passes the data into the template", ->
+    parsedLatex = parseLatexArray(parseRules, latexArray)
+    formattedAndParsedObject = formatParsedArray formattingRules, parsedLatex
+
+    rendered = renderItemToTemplate formattedAndParsedObject[0], template
+
+    expected =
+      """
+      @Article{OA:Aca2009,
+        year =         "2009",
+        month =        "undefined",
+        publisher =    "undefined",
+        volume =       "21",
+        number =       "undefined",
+        pages =        "6--20",
+        author =       "E. Acar and B. Yener",
+        title =        "Unsupervised Multiway Data Analysis: {A} Literature Survey",
+        journal =      "{IEEE} Trans Knowl Data Engin",
+      }
+      """
+
+    expect(rendered).to.equal expected
