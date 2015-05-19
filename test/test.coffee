@@ -6,6 +6,7 @@
   formatParsedItem
   formatParsedArray
   renderItemToTemplate
+  renderArrayToTemplate
 } = require "../parse"
 
 parseRules = require "../parseRules"
@@ -128,7 +129,7 @@ describe "renderItemToTemplate", ->
     parsedLatex = parseLatexArray(parseRules, latexArray)
     formattedAndParsedObject = formatParsedArray formattingRules, parsedLatex
 
-    rendered = renderItemToTemplate formattedAndParsedObject[0], template
+    rendered = renderItemToTemplate template, formattedAndParsedObject[0]
 
     expected =
       """
@@ -146,3 +147,15 @@ describe "renderItemToTemplate", ->
       """
 
     expect(rendered).to.equal expected
+
+describe "renderArrayToTemplate", ->
+
+  it "renders all items in array to a single string", ->
+    parsedLatex = parseLatexArray(parseRules, latexArray)
+    formattedAndParsedObject = formatParsedArray formattingRules, parsedLatex
+
+    rendered = renderArrayToTemplate template, formattedAndParsedObject
+
+    expect(rendered).to.be.a "String"
+    expect(rendered.split("\n\n")).to.have.length 3
+    expect(rendered.split("\n")).to.have.length.gte 35
