@@ -85,7 +85,7 @@ describe "formatParsedItem", ->
   describe "with modified properties based on formatRules", ->
 
     it "tag", ->
-      expect(formattedItem).to.have.property "tag", "Aca2009"
+      expect(formattedItem).to.have.property "tag", "Acar2009"
 
     it "year", ->
       expect(formattedItem).to.have.property "year", "2009"
@@ -118,9 +118,9 @@ describe "formatParsedArray", ->
     formattedAndParsedObject = formatParsedArray formattingRules, parsedLatex
     expect(formattedAndParsedObject).to.be.an "Array"
     expect(formattedAndParsedObject).to.have.length 3
-    expect(formattedAndParsedObject[0]).to.have.property "tag", "Aca2009"
-    expect(formattedAndParsedObject[1]).to.have.property "tag", "Agr2014"
-    expect(formattedAndParsedObject[2]).to.have.property "tag", "Alb2003"
+    expect(formattedAndParsedObject[0]).to.have.property "author", "E. Acar and B. Yener"
+    expect(formattedAndParsedObject[1]).to.have.property "author", "D. G. Albertson and C. Collins and F. McCormick and J. W. Gray"
+    expect(formattedAndParsedObject[2]).to.have.property "author", "P. Agrawal and T. Kurcon and K. T. Pilobello and J. F. Rakus and S. Koppolu and Z. Liu and B. S. Batista and W. S. Eng and K. L. Hsu and Y. Liang and L. K. Mahal"
 
 
 describe "renderItemToTemplate", ->
@@ -133,7 +133,7 @@ describe "renderItemToTemplate", ->
 
     expected =
       """
-      @Article{OA:Aca2009,
+      @Article{Acar2009,
         year =         "2009",
         month =        "undefined",
         publisher =    "undefined",

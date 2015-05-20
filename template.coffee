@@ -1,6 +1,6 @@
 module.exports = (data) ->
   """
-  @Article{OA:Aca2009,
+  @Article{#{data.tag},
     year =         "#{data.year}",
     month =        "#{data.month}",
     publisher =    "#{data.publisher}",
