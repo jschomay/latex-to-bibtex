@@ -43,6 +43,9 @@ renderArrayToTemplate = (template, array) ->
   renderedArray = R.map(R.partial(renderItemToTemplate, template)) array
   renderedArray.join("\n\n")
 
+sortBy = (prop, array) ->
+  R.sortBy R.prop(prop), array
+
 module.exports = {
   latexToArray
   parseLatexItem
@@ -51,4 +54,5 @@ module.exports = {
   formatParsedArray
   renderItemToTemplate
   renderArrayToTemplate
+  sortBy
 }

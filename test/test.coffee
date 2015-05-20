@@ -7,6 +7,7 @@
   formatParsedArray
   renderItemToTemplate
   renderArrayToTemplate
+  sortBy
 } = require "../parse"
 
 parseRules = require "../parseRules"
@@ -159,3 +160,18 @@ describe "renderArrayToTemplate", ->
     expect(rendered).to.be.a "String"
     expect(rendered.split("\n\n")).to.have.length 3
     expect(rendered.split("\n")).to.have.length.gte 35
+
+describe "sortBy", ->
+
+  it "sorts the array by the specified tag", ->
+    array = [
+      tag: "a"
+    ,
+      tag: "c"
+    ,
+      tag: "b"
+    ]
+    sortedArray = sortBy "tag", array
+    expect(sortedArray[0].tag).to.equal "a"
+    expect(sortedArray[1].tag).to.equal "b"
+    expect(sortedArray[2].tag).to.equal "c"
