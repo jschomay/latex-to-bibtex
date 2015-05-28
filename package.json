@@ -1,21 +1,30 @@
 {
   "name": "latex-to-bibtex",
-  "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
+  "version": "0.0.1",
+  "description": "Customizable parser intended to generate bibtex files from latex files based on loaded-in parsing and formatting rules.",
+  "main": "index.coffee",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "coffee example/example.coffee",
+    "test": "mocha"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jef Schomay",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jschomay/latex-to-bibtex"
+  },
+  "keywords": [
+    "libtex",
+    "bibtex",
+    "convert",
+    "parse",
+    "parser"
+  ],
   "devDependencies": {
-    "chai": "^2.3.0"
+    "chai": "^2.3.0",
+    "mocha": "^2.2.5"
   },
   "dependencies": {
-    "ramda": "^0.14.0",
-    "titlecase": "^1.0.2"
+    "ramda": "^0.14.0"
   }
 }
