@@ -1,4 +1,5 @@
 {expect} = require "chai"
+path = require "path"
 
 {latexToArray
   parseLatexItem
@@ -10,11 +11,11 @@
   sortBy
 } = require "../parse"
 
-parseRules = require "../parseRules"
-formattingRules = require "../formattingrules"
-template = require "../template"
+parseRules = require "../example/parseRules"
+formattingRules = require "../example/formattingrules"
+template = require "../example/template"
 
-latexArray = latexToArray "test/sample.tex", "bibitem"
+latexArray = latexToArray path.join(__dirname, "/../example/sample.tex"), "bibitem"
 
 describe "latexToArray", ->
 
